@@ -13,6 +13,7 @@ import fastify, {
   FastifyPlugin,
   FastifyPluginAsync,
   FastifyPluginCallback,
+  FastifyRequest,
   InjectOptions,
   LightMyRequestCallback,
   LightMyRequestChain,
@@ -117,6 +118,12 @@ expectAssignable<FastifyInstance>(fastify({ handlerTimeout: 5000 }))
 expectAssignable<FastifyInstance>(fastify({ maxParamLength: 100 }))
 expectAssignable<FastifyInstance>(fastify({ disableRequestLogging: true }))
 expectAssignable<FastifyInstance>(fastify({ disableRequestLogging: (req) => req.url?.includes('/health') ?? false }))
+expectAssignable<FastifyInstance>(fastify({
+  disableRequestLogging: (req) => {
+    expectType<FastifyRequest | RawRequestDefaultExpression>(req)
+    return req.url?.includes('/health') ?? false
+  }
+}))
 expectAssignable<FastifyInstance>(fastify({ requestIdLogLabel: 'request-id' }))
 expectAssignable<FastifyInstance>(fastify({ onProtoPoisoning: 'error' }))
 expectAssignable<FastifyInstance>(fastify({ onConstructorPoisoning: 'error' }))

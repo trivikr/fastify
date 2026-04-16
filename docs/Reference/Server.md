@@ -396,9 +396,11 @@ been sent. By setting this option to `true`, these log messages will be
 disabled. This allows for more flexible request start and end logging by
 attaching custom `onRequest` and `onResponse` hooks.
 
-This option can also be a function that receives the Fastify request object
-and returns a boolean. This allows for conditional request logging based on the
-request properties (e.g., URL, headers, decorations).
+This option can also be a function that receives the current request object
+and returns a boolean. For matched routes, Fastify passes a `FastifyRequest`.
+For bad URLs and not-found responses, Fastify passes the raw Node.js request.
+This allows for conditional request logging based on properties shared by both
+request shapes, such as `url` and `headers`.
 
 ```js
 const fastify = require('fastify')({
