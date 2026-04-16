@@ -18,6 +18,45 @@ test('listen should accept null port', async t => {
   )
 })
 
+test('request handling does not touch noop keep-alive tracking container', async t => {
+  let noopSetTouched = false
+  const Fastify = proxyquire('..', {
+    './lib/server.js': proxyquire('../lib/server.js', {
+      './noop-set': () => ({
+        [Symbol.iterator]: function * () {},
+        add () {
+          noopSetTouched = true
+          throw new Error('noop keep-alive tracking should not be touched')
+        },
+        delete () {},
+        has () {
+          noopSetTouched = true
+          throw new Error('noop keep-alive tracking should not be touched')
+        }
+      })
+    })
+  })
+
+  const fastify = Fastify()
+  t.after(() => fastify.close())
+
+  fastify.get('/', (req, reply) => {
+    reply.send('ok')
+  })
+
+  const res = await fastify.inject({
+    method: 'GET',
+    url: '/',
+    headers: {
+      connection: 'keep-alive'
+    }
+  })
+
+  t.assert.strictEqual(res.statusCode, 200)
+  t.assert.strictEqual(res.payload, 'ok')
+  t.assert.strictEqual(noopSetTouched, false)
+})
+
 test('listen should accept undefined port', async t => {
   const fastify = Fastify()
   t.after(() => fastify.close())
