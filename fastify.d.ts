@@ -13,7 +13,7 @@ import { AddContentTypeParser, ConstructorAction, FastifyBodyParser, FastifyCont
 import { FastifyContextConfig, FastifyReplyContext, FastifyRequestContext } from './types/context'
 import { FastifyErrorCodes } from './types/errors'
 import { DoneFuncWithErrOrRes, HookHandlerDoneFunction, onCloseAsyncHookHandler, onCloseHookHandler, onErrorAsyncHookHandler, onErrorHookHandler, onListenAsyncHookHandler, onListenHookHandler, onReadyAsyncHookHandler, onReadyHookHandler, onRegisterHookHandler, onRequestAbortAsyncHookHandler, onRequestAbortHookHandler, onRequestAsyncHookHandler, onRequestHookHandler, onResponseAsyncHookHandler, onResponseHookHandler, onRouteHookHandler, onSendAsyncHookHandler, onSendHookHandler, onTimeoutAsyncHookHandler, onTimeoutHookHandler, preCloseAsyncHookHandler, preCloseHookHandler, preHandlerAsyncHookHandler, preHandlerHookHandler, preParsingAsyncHookHandler, preParsingHookHandler, preSerializationAsyncHookHandler, preSerializationHookHandler, preValidationAsyncHookHandler, preValidationHookHandler, RequestPayload } from './types/hooks'
-import { FastifyInstance, FastifyListenOptions, PrintRoutesOptions } from './types/instance'
+import { DisableRequestLoggingRequest, FastifyInstance, FastifyListenOptions, PrintRoutesOptions } from './types/instance'
 import {
   FastifyBaseLogger,
   FastifyChildLoggerFactory,
@@ -121,7 +121,7 @@ declare namespace fastify {
     bodyLimit?: number,
     handlerTimeout?: number,
     maxParamLength?: number,
-    disableRequestLogging?: boolean | ((req: FastifyRequest) => boolean),
+    disableRequestLogging?: boolean | ((req: DisableRequestLoggingRequest<RawServer, RawRequestDefaultExpression<RawServer>, Logger>) => boolean),
     exposeHeadRoutes?: boolean,
     onProtoPoisoning?: ProtoAction,
     onConstructorPoisoning?: ConstructorAction,

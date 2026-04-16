@@ -17,7 +17,7 @@ import { FastifySchemaControllerOptions, FastifySchemaCompiler, FastifySerialize
 import { AddressInfo } from 'node:net'
 import { Bindings, ChildLoggerOptions } from '../../types/logger'
 import { Config as FindMyWayConfig, ConstraintStrategy } from 'find-my-way'
-import { FindMyWayVersion } from '../../types/instance'
+import { DisableRequestLoggingRequest, FindMyWayVersion } from '../../types/instance'
 
 const server = fastify()
 
@@ -324,7 +324,7 @@ type InitialConfig = Readonly<{
   https?: boolean | Readonly<{ allowHTTP1: boolean }>,
   ignoreTrailingSlash?: boolean,
   ignoreDuplicateSlashes?: boolean,
-  disableRequestLogging?: boolean | ((req: FastifyRequest) => boolean),
+  disableRequestLogging?: boolean | ((req: DisableRequestLoggingRequest) => boolean),
   maxParamLength?: number,
   onProtoPoisoning?: 'error' | 'remove' | 'ignore',
   onConstructorPoisoning?: 'error' | 'remove' | 'ignore',
@@ -337,6 +337,13 @@ type InitialConfig = Readonly<{
 }>
 
 expectType<InitialConfig>(fastify().initialConfig)
+
+expectAssignable<FastifyInstance>(fastify({
+  disableRequestLogging: (req) => {
+    expectType<DisableRequestLoggingRequest>(req)
+    return req.url === '/health'
+  }
+}))
 
 const routerOptionsForFindMyWay = {} as FastifyRouterOptions<RawServerDefault>
 expectAssignable<FindMyWayConfig<FindMyWayVersion<RawServerDefault>>>(routerOptionsForFindMyWay)

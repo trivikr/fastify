@@ -34,6 +34,13 @@ export interface PrintRoutesOptions {
 
 type AsyncFunction = (...args: any) => Promise<any>
 
+export type DisableRequestLoggingRequest<
+  RawServer extends RawServerBase = RawServerDefault,
+  RawRequest extends RawRequestDefaultExpression<RawServer> = RawRequestDefaultExpression<RawServer>,
+  Logger extends FastifyBaseLogger = FastifyBaseLogger,
+  TypeProvider extends FastifyTypeProvider = FastifyTypeProviderDefault
+> = FastifyRequest<RouteGenericInterface, RawServer, RawRequest, FastifySchema, TypeProvider, ContextConfigDefault, Logger> | RawRequest
+
 export interface FastifyListenOptions {
   /**
    * Default to `0` (picks the first available open port).
@@ -595,7 +602,7 @@ export interface FastifyInstance<
     https?: boolean | Readonly<{ allowHTTP1: boolean }>,
     ignoreTrailingSlash?: boolean,
     ignoreDuplicateSlashes?: boolean,
-    disableRequestLogging?: boolean | ((req: FastifyRequest) => boolean),
+    disableRequestLogging?: boolean | ((req: DisableRequestLoggingRequest<RawServer, RawRequest, Logger, TypeProvider>) => boolean),
     maxParamLength?: number,
     onProtoPoisoning?: ProtoAction,
     onConstructorPoisoning?: ConstructorAction,
