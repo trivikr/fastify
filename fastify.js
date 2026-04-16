@@ -109,6 +109,7 @@ function fastify (serverOptions) {
     forceCloseConnections,
     serverHasCloseAllConnections,
     serverHasCloseHttp2Sessions,
+    trackKeepAliveConnections,
     keepAliveConnections
   } = createServer(options, httpHandler)
 
@@ -439,6 +440,7 @@ function fastify (serverOptions) {
     hasLogger,
     setupResponseListeners,
     throwIfAlreadyStarted,
+    trackKeepAliveConnections,
     keepAliveConnections
   })
 
