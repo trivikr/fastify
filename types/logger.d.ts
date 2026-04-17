@@ -38,7 +38,8 @@ export interface FastifyLoggerStreamDestination {
   write(msg: string): void;
 }
 
-// TODO: once node 18 is EOL, this type can be replaced with plain FastifyReply.
+// This stays narrower than FastifyReply because the `res` serializer may
+// receive a minimal `{ statusCode }` object on shutdown paths.
 /**
  * Specialized reply type used for the `res` log serializer, since only `statusCode` is passed in certain cases.
  */
