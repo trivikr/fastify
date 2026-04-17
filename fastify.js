@@ -382,7 +382,6 @@ function fastify (serverOptions) {
         if (fastify[kState].listening) {
           /* istanbul ignore next: Cannot test this without Node.js core support */
           if (forceCloseConnections === 'idle') {
-            // Not needed in Node 19
             instance.server.closeIdleConnections()
             /* istanbul ignore next: Cannot test this without Node.js core support */
           } else if (serverHasCloseAllConnections && forceCloseConnections) {
@@ -449,7 +448,7 @@ function fastify (serverOptions) {
     initChannel.publish({ fastify })
   }
 
-  // Older nodejs versions may not have asyncDispose
+  // TODO(20.x): remove when node@20 is not supported
   if ('asyncDispose' in Symbol) {
     fastify[Symbol.asyncDispose] = function dispose () {
       return fastify.close()

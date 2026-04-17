@@ -168,7 +168,7 @@ When `serverFactory` option is specified this option is ignored.
 
 When set to `true`, upon [`close`](#close) the server will iterate the current
 persistent connections and [destroy their
-sockets](https://nodejs.org/dist/latest-v16.x/docs/api/net.html#socketdestroyerror).
+sockets](https://nodejs.org/api/net.html#socketdestroyerror).
 
 When used with HTTP/2 server, it will also close all active HTTP/2 sessions.
 
@@ -181,14 +181,14 @@ When used with HTTP/2 server, it will also close all active HTTP/2 sessions.
 > been completed.
 
 Fastify will prefer the HTTP server's
-[`closeAllConnections`](https://nodejs.org/dist/latest-v18.x/docs/api/http.html#servercloseallconnections)
+[`closeAllConnections`](https://nodejs.org/api/http.html#servercloseallconnections)
 method if supported, otherwise, it will use internal connection tracking.
 
 When set to `"idle"`, upon [`close`](#close) the server will iterate the current
 persistent connections which are not sending a request or waiting for a response
 and destroy their sockets. The value is only supported if the HTTP server
 supports the
-[`closeIdleConnections`](https://nodejs.org/dist/latest-v18.x/docs/api/http.html#servercloseidleconnections)
+[`closeIdleConnections`](https://nodejs.org/api/http.html#servercloseidleconnections)
 method, otherwise attempting to set it will throw an exception.
 
 ### `maxRequestsPerSocket`
@@ -202,9 +202,6 @@ property](https://nodejs.org/dist/latest/docs/api/http.html#servermaxrequestsper
 to understand the effect of this option. This option only applies when HTTP/1.1
 is in use. Also, when `serverFactory` option is specified, this option is
 ignored.
-
-> ℹ️ Note:
->  At the time of writing, only node >= v16.10.0 supports this option.
 
 ### `requestTimeout`
 <a id="factory-request-timeout"></a>
@@ -220,9 +217,6 @@ When `serverFactory` option is specified, this option is ignored.
 It must be set to a non-zero value (e.g. 120 seconds) to protect against potential
 Denial-of-Service attacks in case the server is deployed without a reverse proxy
 in front.
-
-> ℹ️ Note:
->  At the time of writing, only node >= v14.11.0 supports this option
 
 ### `handlerTimeout`
 <a id="factory-handler-timeout"></a>
