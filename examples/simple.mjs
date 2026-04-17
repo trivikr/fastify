@@ -1,4 +1,3 @@
-// works on Node v14.13.0+
 import { fastify } from '../fastify.js'
 
 const app = fastify({
